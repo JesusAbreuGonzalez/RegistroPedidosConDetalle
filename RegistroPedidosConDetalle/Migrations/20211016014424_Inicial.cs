@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RegistroPedidosConDetalle.Migrations
 {
-    public partial class Incial : Migration
+    public partial class Inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,6 +14,7 @@ namespace RegistroPedidosConDetalle.Migrations
                     OrdenId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Fecha = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    SuplidorId = table.Column<int>(type: "INTEGER", nullable: false),
                     Monto = table.Column<float>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
@@ -58,24 +59,64 @@ namespace RegistroPedidosConDetalle.Migrations
                     OrdenId = table.Column<int>(type: "INTEGER", nullable: false),
                     ProductoId = table.Column<int>(type: "INTEGER", nullable: false),
                     Cantidad = table.Column<float>(type: "REAL", nullable: false),
-                    Costo = table.Column<float>(type: "REAL", nullable: false),
-                    OrdenesOrdenId = table.Column<int>(type: "INTEGER", nullable: true)
+                    Costo = table.Column<float>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrdenesDetalle", x => x.DetalleId);
                     table.ForeignKey(
-                        name: "FK_OrdenesDetalle_Ordenes_OrdenesOrdenId",
-                        column: x => x.OrdenesOrdenId,
+                        name: "FK_OrdenesDetalle_Ordenes_OrdenId",
+                        column: x => x.OrdenId,
                         principalTable: "Ordenes",
                         principalColumn: "OrdenId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrdenesDetalle_Productos_ProductoId",
+                        column: x => x.ProductoId,
+                        principalTable: "Productos",
+                        principalColumn: "ProductoId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Productos",
+                columns: new[] { "ProductoId", "Costo", "Descripcion", "Inventario" },
+                values: new object[] { 1, 80f, "Cartón de jugo de naranja, 1 litro", 110f });
+
+            migrationBuilder.InsertData(
+                table: "Productos",
+                columns: new[] { "ProductoId", "Costo", "Descripcion", "Inventario" },
+                values: new object[] { 2, 50f, "Cartón de leche Listamilk, 1 litro", 85f });
+
+            migrationBuilder.InsertData(
+                table: "Productos",
+                columns: new[] { "ProductoId", "Costo", "Descripcion", "Inventario" },
+                values: new object[] { 3, 700f, "Pizza Grande Suprema de Pollo", 1225f });
+
+            migrationBuilder.InsertData(
+                table: "Suplidores",
+                columns: new[] { "SuplidorId", "Nombres" },
+                values: new object[] { 1, "Pizza Hut" });
+
+            migrationBuilder.InsertData(
+                table: "Suplidores",
+                columns: new[] { "SuplidorId", "Nombres" },
+                values: new object[] { 2, "C&H Technology" });
+
+            migrationBuilder.InsertData(
+                table: "Suplidores",
+                columns: new[] { "SuplidorId", "Nombres" },
+                values: new object[] { 3, "Rica" });
+
             migrationBuilder.CreateIndex(
-                name: "IX_OrdenesDetalle_OrdenesOrdenId",
+                name: "IX_OrdenesDetalle_OrdenId",
                 table: "OrdenesDetalle",
-                column: "OrdenesOrdenId");
+                column: "OrdenId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrdenesDetalle_ProductoId",
+                table: "OrdenesDetalle",
+                column: "ProductoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -84,13 +125,13 @@ namespace RegistroPedidosConDetalle.Migrations
                 name: "OrdenesDetalle");
 
             migrationBuilder.DropTable(
-                name: "Productos");
-
-            migrationBuilder.DropTable(
                 name: "Suplidores");
 
             migrationBuilder.DropTable(
                 name: "Ordenes");
+
+            migrationBuilder.DropTable(
+                name: "Productos");
         }
     }
 }

@@ -11,7 +11,9 @@ namespace RegistroPedidosConDetalle.Models
         [Key]
         public int DetalleId { get; set; }
         public int OrdenId { get; set; }
+        public Ordenes Orden { get; set; }
         public int ProductoId { get; set; }
+        public Productos Producto { get; set; }
         public float Cantidad { get; set; }
         public float Costo { get; set; }
 

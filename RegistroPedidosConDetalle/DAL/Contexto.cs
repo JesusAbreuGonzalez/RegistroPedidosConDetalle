@@ -12,7 +12,6 @@ namespace RegistroPedidosConDetalle.DAL
         public DbSet<Suplidores> Suplidores { get; set; }
         public DbSet<Productos> Productos { get; set; }
         public DbSet<Ordenes> Ordenes { get; set; }
-        public DbSet<OrdenesDetalle> OrdenesDetalle { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

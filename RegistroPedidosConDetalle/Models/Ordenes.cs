@@ -11,6 +11,7 @@ namespace RegistroPedidosConDetalle.Models
         [Key]
         public int OrdenId { get; set; }
         public DateTime Fecha { get; set; }
+        public int SuplidorId { get; set; }
         public float Monto { get; set; }
 
         public virtual ICollection<OrdenesDetalle> OrdenesDetalle { get; set; }
@@ -19,6 +20,7 @@ namespace RegistroPedidosConDetalle.Models
         {
             OrdenId = 0;
             Fecha = DateTime.Now;
+            SuplidorId = 0;
             Monto = 0;
             OrdenesDetalle = new HashSet<OrdenesDetalle>();
         }

@@ -9,8 +9,8 @@ using RegistroPedidosConDetalle.DAL;
 namespace RegistroPedidosConDetalle.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20211015231154_Agregando Suplidores y productos")]
-    partial class AgregandoSuplidoresyproductos
+    [Migration("20211016014424_Inicial")]
+    partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,6 +29,9 @@ namespace RegistroPedidosConDetalle.Migrations
 
                     b.Property<float>("Monto")
                         .HasColumnType("REAL");
+
+                    b.Property<int>("SuplidorId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("OrdenId");
 
@@ -50,15 +53,14 @@ namespace RegistroPedidosConDetalle.Migrations
                     b.Property<int>("OrdenId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("OrdenesOrdenId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("ProductoId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("DetalleId");
 
-                    b.HasIndex("OrdenesOrdenId");
+                    b.HasIndex("OrdenId");
+
+                    b.HasIndex("ProductoId");
 
                     b.ToTable("OrdenesDetalle");
                 });
@@ -139,9 +141,21 @@ namespace RegistroPedidosConDetalle.Migrations
 
             modelBuilder.Entity("RegistroPedidosConDetalle.Models.OrdenesDetalle", b =>
                 {
-                    b.HasOne("RegistroPedidosConDetalle.Models.Ordenes", null)
+                    b.HasOne("RegistroPedidosConDetalle.Models.Ordenes", "Orden")
                         .WithMany("OrdenesDetalle")
-                        .HasForeignKey("OrdenesOrdenId");
+                        .HasForeignKey("OrdenId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RegistroPedidosConDetalle.Models.Productos", "Producto")
+                        .WithMany()
+                        .HasForeignKey("ProductoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Orden");
+
+                    b.Navigation("Producto");
                 });
 
             modelBuilder.Entity("RegistroPedidosConDetalle.Models.Ordenes", b =>

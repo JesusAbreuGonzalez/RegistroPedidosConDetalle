@@ -5,11 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Blazored.toast" Version="3.2.2" />
     <PackageReference Include="Microsoft.EntityFrameWorkCore.SQLITE" Version="5.0.11" />
     <PackageReference Include="Microsoft.EntityFrameWorkCore.Tools" Version="5.0.11">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
   </ItemGroup>
 
 </Project>
